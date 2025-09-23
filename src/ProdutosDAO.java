@@ -7,11 +7,11 @@
  *
  * @author Adm
  */
-
 import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.ArrayList;
 
 
@@ -21,7 +21,7 @@ public class ProdutosDAO {
     conectaDAO conexao;
     PreparedStatement prep;
     ResultSet resultset;
-    ArrayList<ProdutosDTO> listagem = new ArrayList<>();
+  
     
     public ProdutosDAO(){
         this.conexao = new conectaDAO();
@@ -50,9 +50,31 @@ public class ProdutosDAO {
         
     }
     
-    public ArrayList<ProdutosDTO> listarProdutos(){
-        
-        return listagem;
+    public List<ProdutosDTO> getProdutos() {
+
+        String sql = "SELECT * from produtos";
+
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            List<ProdutosDTO> listaProdutos = new ArrayList<>();
+
+            while (rs.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString(("nome")));
+                produto.setValor(rs.getInt("valor"));
+                produto.setStatus(rs.getString("status"));
+                listaProdutos.add(produto);
+            }
+            return listaProdutos;
+
+        } catch (Exception e) {
+            return null;
+        }
+
     }
     
     
