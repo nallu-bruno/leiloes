@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -136,11 +137,7 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        String id = id_produto_venda.getText();
-        
-        ProdutosDAO produtosdao = new ProdutosDAO();
-        
-        //produtosdao.venderProduto(Integer.parseInt(id));
+        venderProduto();
         listarProdutos();
     }//GEN-LAST:event_btnVenderActionPerformed
 
@@ -222,4 +219,23 @@ public class listagemVIEW extends javax.swing.JFrame {
         }
     
     }
+    
+    public void venderProduto() {
+    int idVenda = Integer.parseInt(id_produto_venda.getText());
+    try {
+        ProdutosDTO produto = new ProdutosDTO();
+
+        String status = "Vendido";
+        produto.setId(idVenda);
+        produto.setStatus(status);
+
+        ProdutosDAO produtodao = new ProdutosDAO();
+        produtodao.vendaProduto(produto);
+
+        JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Erro ao registrar venda: " + e.getMessage());
+    }
+}
+    
 }
