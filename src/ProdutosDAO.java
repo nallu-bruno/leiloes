@@ -42,19 +42,19 @@ public class ProdutosDAO {
         }
 
     }
-    
+
     public void vendaProduto(ProdutosDTO produto) {
-    String sql = "UPDATE produtos SET status = ? WHERE id = ?";
-    try {
-        PreparedStatement stmt = this.conn.prepareStatement(sql);
-        stmt.setString(1, produto.getStatus());
-        stmt.setInt(2, produto.getId());
-        stmt.executeUpdate();
-        stmt.close();
-    } catch (Exception e) {
-        System.out.println("Erro ao atualizar produto: " + e.getMessage());
+        String sql = "UPDATE produtos SET status = ? WHERE id = ?";
+        try {
+            PreparedStatement stmt = this.conn.prepareStatement(sql);
+            stmt.setString(1, produto.getStatus());
+            stmt.setInt(2, produto.getId());
+            stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar produto: " + e.getMessage());
+        }
     }
-}
 
     public List<ProdutosDTO> getProdutos() {
 
@@ -82,5 +82,30 @@ public class ProdutosDAO {
         }
 
     }
+    
+      public List<ProdutosDTO> getProdutosVendidos() {
+    String sql = "SELECT * FROM produtos WHERE status = ?";
+    List<ProdutosDTO> listaProdutos = new ArrayList<>();
+
+    try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
+        stmt.setString(1, "Vendido");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            ProdutosDTO produto = new ProdutosDTO();
+            produto.setId(rs.getInt("id"));
+            produto.setNome(rs.getString("nome"));
+            produto.setValor(rs.getInt("valor"));
+            produto.setStatus(rs.getString("status"));
+
+            listaProdutos.add(produto);
+        }
+
+    } catch (Exception e) {
+        System.out.println("Erro ao buscar produtos: " + e.getMessage());
+    }
+
+    return listaProdutos;
+}
 
 }
