@@ -26,8 +26,8 @@ public class ProdutosDAO {
         this.conn = this.conexao.getConexao();
     }
    
-  
-    
+      
+
     public void cadastrarProduto(ProdutosDTO produto) {
 
         String sql = "INSERT INTO produtos (nome,valor, status) VALUES" + "(?, ?, ?)";
