@@ -25,7 +25,9 @@ public class ProdutosDAO {
         this.conexao = new conectaDAO();
         this.conn = this.conexao.getConexao();
     }
-
+   
+  
+    
     public void cadastrarProduto(ProdutosDTO produto) {
 
         String sql = "INSERT INTO produtos (nome,valor, status) VALUES" + "(?, ?, ?)";
@@ -40,29 +42,30 @@ public class ProdutosDAO {
             System.out.println("Erro ao inserir empresa: " + e.getMessage());
 
         }
-    }
 
+    }
     
-      public void vendaProduto(ProdutosDTO produto) {
-        String sql = "UPDATE produtos SET status = ? WHERE id = ?";
-        try {
+    public void vendaProduto(ProdutosDTO produto){
+         String sql = "UPDATE produtos SET status = ? WHERE id = ?";
+         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
             stmt.setString(1, produto.getStatus());
             stmt.setInt(2, produto.getId());
-            stmt.executeUpdate();
-            stmt.close();
+            stmt.execute();
         } catch (Exception e) {
-            System.out.println("Erro ao atualizar produto: " + e.getMessage());
-        }
-    }
+            System.out.println("Erro ao inserir empresa: " + e.getMessage());
 
+        }
+    
+    }
+    
     public List<ProdutosDTO> getProdutos() {
 
         String sql = "SELECT * from produtos WHERE status = ?";
 
         try {
             PreparedStatement stmt = this.conn.prepareStatement(sql);
-            stmt.setString(1, "A Venda");
+            stmt.setString(1,"A Venda");
             ResultSet rs = stmt.executeQuery();
 
             List<ProdutosDTO> listaProdutos = new ArrayList<>();

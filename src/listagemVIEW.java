@@ -136,9 +136,8 @@ public class listagemVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVenderActionPerformed
-        venderProduto();
+        vendaProduto();
         listarProdutos();
-
     }//GEN-LAST:event_btnVenderActionPerformed
 
     private void btnVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVendasActionPerformed
@@ -217,10 +216,10 @@ public class listagemVIEW extends javax.swing.JFrame {
             }
         } catch (Exception e) {
         }
-
+       
     }
 
-    public void venderProduto() {
+    public void vendaProduto() {
         int idVenda = Integer.parseInt(id_produto_venda.getText());
         try {
             ProdutosDTO produto = new ProdutosDTO();
@@ -231,11 +230,11 @@ public class listagemVIEW extends javax.swing.JFrame {
 
             ProdutosDAO produtodao = new ProdutosDAO();
             produtodao.vendaProduto(produto);
-
-            JOptionPane.showMessageDialog(null, "Produto vendido com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao registrar venda: " + e.getMessage());
-        }
-    }
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar");
 
+        }
+
+    }
 }
