@@ -14,21 +14,18 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class ProdutosDAO {
-    
+
     Connection conn;
     conectaDAO conexao;
     PreparedStatement prep;
     ResultSet resultset;
-  
-    
-    public ProdutosDAO(){
+
+    public ProdutosDAO() {
         this.conexao = new conectaDAO();
         this.conn = this.conexao.getConexao();
     }
-    
-    
+
     public void cadastrarProduto(ProdutosDTO produto) {
 
         String sql = "INSERT INTO produtos (nome,valor, status) VALUES" + "(?, ?, ?)";
@@ -87,9 +84,30 @@ public class ProdutosDAO {
         }
 
     }
-    
-    
-    
-        
-}
 
+    public List<ProdutosDTO> getProdutosVendidos() {
+        String sql = "SELECT * FROM produtos WHERE status = ?";
+        List<ProdutosDTO> listaProdutos = new ArrayList<>();
+
+        try (PreparedStatement stmt = this.conn.prepareStatement(sql)) {
+            stmt.setString(1, "Vendido");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setValor(rs.getInt("valor"));
+                produto.setStatus(rs.getString("status"));
+
+                listaProdutos.add(produto);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar produtos: " + e.getMessage());
+        }
+
+        return listaProdutos;
+    }
+
+}
